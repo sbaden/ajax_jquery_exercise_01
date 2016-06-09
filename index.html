@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
-  <link rel="stylesheet" href="style.css">
+	<title></title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="main.js" type="text/javascript" charset="utf-8" async defer></script>
+	<script id="weather-template" type="text/x-handlebars-template">
+		<div>
+			<h1>{{date}}</h1>
+			<img src="{{icon}}">
+			<h2>{{description}}</h2>
+			<br>
+			<h2>{{temp}}{{tempLow}}/{{tempHigh}}</h2>
+			<h2>{{humidity}}</h2>
+			<br>
+			<h2>{{wind}}{{windDir}}{{windSpeed}}</h2>
+		</div>
+		<hr>
+	</script>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<script src="main.js" type="text/javascript" charset="utf-8" async defer></script>
 
 </body>
 </html>

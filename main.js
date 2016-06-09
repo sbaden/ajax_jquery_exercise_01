@@ -1,31 +1,91 @@
 /*
 
-- Sign up for openweathermap.org and generate an API key.
-- User either $.ajax or $.get to pull weather current data .
-  for Washington DC (hint: http://api.openweathermap.org/data/2.5/weather?q=...).
-- Print the temperature in console.
-- Bonus 1: add a form prompting user for the city and state.
-- Bonus 2: convert answer from kelvin to fahrenheit.
+- Sign up for openweathermap.org: generate API key.
+- $.ajax or $.get to pull weather data.
+  	(hint: http://api.openweathermap.org/data/2.5/weather?q=...)
+- console.log(temperature)
+- Bonus 1: prompt user for city and state.
+- Bonus 2: get units in fahrenheit.
 
 */
 
 (function(){
 	var apiKey = '6987be120e411e10219df3b69a8edc5c';
-	var city = 'rome,it';
+	var city = 'los angeles,us';
 	var url = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city;
-	var unit = 'metric';
+	var unit = 'Imperial';  // Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit
 
 
 	$.ajax({
 		url: url+ '&appid='+apiKey + '&units='+ unit,
 		type: 'GET',
 		success: function(response){
-			console.log(response);
+			passWeatherData(response);
+			/*console.log(response.list[1].dt_txt);
+			console.log(response.list[0]);
 			console.log(response.list.length);
-			console.log(response.list[1].main.temp);
+			console.log(response.list[0].main.temp);*/
 		},
 		error: function(response){
 			console.log(response);
 		}
 	});
 })();
+
+function passWeatherData(data){
+	var templateSource = $('#weather-template').html(); // Reference html template
+	var template = Handlebars.compile(templateSource); // Compile template w/Handlebars
+
+	for(var i=0; i<data.list.length; i++){
+		var dateTime = new Date(data.list[i].dt_txt);
+		console.log(dateTime.getHours());
+
+		var dayArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
+			'Thursday', 'Friday', 'Saturday'];
+		var monthArray = ['January', 'February', 'March', 'April', 'May',
+			'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+		var dateTimeObj = {
+			dayOfWeek: dayArray[dateTime.getDay()],
+			month: monthArray[dateTime.getMonth()],
+			day: dateTime.getDate(),
+			year: dateTime.getFullYear(),
+			hour: dateTime.getHours(),
+			min: dateTime.getMinutes()
+		}
+
+		var minAdj = (dateTimeObj >= 10 ? dateTimeObj.min : '0'+dateTimeObj.min);
+		var time = dateTimeObj.hour + ':' + minAdj;
+
+		dateTime = dateTimeObj.dayOfWeek+', ' + dateTimeObj.month +' '+ dateTimeObj.day +', ' +dateTimeObj.year +' '+ time;
+
+		var iconID = data.list[i].weather[0].icon;
+		var iconURL = "http://www.openweathermap.org/img/w/" + iconID + ".png"
+
+		var weather = { // Define data obj
+			date:  dateTime,
+			icon:  iconURL,
+			description: data.list[i].weather[0].description,
+			temp:  'Temperature ',
+			tempLow:  Math.floor(data.list[i].main.temp_min),
+			tempHigh:  Math.floor(data.list[i].main.temp_max),
+			humidity:  'Humidity ' + Math.floor(data.list[i].main.humidity),
+			wind: 'Wind ',
+			windDir: Math.floor(data.list[i].wind.deg) + ' degrees',
+			windSpeed: ' at ' + Math.floor(data.list[i].wind.speed) + ' mph'
+		}
+
+		var readyTemplate = template(weather);// Pass data obj to template
+		$('body').append(readyTemplate);  // Append DOM
+	}
+}
+
+
+
+
+
+
+
+
+
+
