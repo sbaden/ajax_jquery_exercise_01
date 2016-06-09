@@ -4,19 +4,13 @@ body {
 
 #nav {
 	max-width: 690px;
+	margin-bottom: 30px;
 }
 
-#movie-wrapper {
-	margin-top: 20px;
-	min-height: 265px;
-	height: auto;
-}
-
-#poster {
-	float: left;
-	margin-right: 20px;
-	max-height: 265px;
-}
+/*#city-search {
+	color: #c6c6c6;
+	border: 1px solid black;
+}*/
 
 img {
 	margin-bottom: 0px;
@@ -28,6 +22,7 @@ h1 {
 	font-weight: bold;
 	font-size: 20px;
 	font-family: sans-serif;
+	color: #E65100;
 }
 
 h2 {
@@ -46,10 +41,12 @@ a {
 }
 
 hr {
-	margin-top: 20px;
+	margin-top: 30px;
+	margin-bottom: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	border-width: 1px;
+	border-color: #E1F5FE;
 }
 
 div {

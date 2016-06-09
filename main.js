@@ -10,29 +10,37 @@
 */
 
 (function(){
-	var apiKey = '6987be120e411e10219df3b69a8edc5c';
-	var city = 'los angeles,us';
-	var url = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city;
-	var unit = 'Imperial';  // Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit
 
-
-	$.ajax({
-		url: url+ '&appid='+apiKey + '&units='+ unit,
-		type: 'GET',
-		success: function(response){
-			passWeatherData(response);
-			/*console.log(response.list[1].dt_txt);
-			console.log(response.list[0]);
-			console.log(response.list.length);
-			console.log(response.list[0].main.temp);*/
-		},
-		error: function(response){
-			console.log(response);
+	$('#get-weather').on('click', function(){
+		var $city = $('#city-search');
+		
+		if(!$city.val().trim()){
+			alert('Please enter a city and country code');
 		}
+		else{ console.log($city);
+			var apiKey = '6987be120e411e10219df3b69a8edc5c';
+			// var city = 'los angeles,us';
+			var url = 'http://api.openweathermap.org/data/2.5/forecast?q=' + $city.val();
+			var unit = 'Imperial';  // Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit
+
+
+			$.ajax({
+				url: url+ '&appid='+apiKey + '&units='+ unit,
+				type: 'GET',
+				success: function(response){
+					passWeatherData(response);
+				},
+				error: function(response){
+					console.log(response);
+				}
+			});
+		}
+		$city.val('');
 	});
+
 })();
 
-function passWeatherData(data){
+function passWeatherData(data){ console.log(data);
 	var templateSource = $('#weather-template').html(); // Reference html template
 	var template = Handlebars.compile(templateSource); // Compile template w/Handlebars
 
